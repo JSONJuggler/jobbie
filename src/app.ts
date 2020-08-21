@@ -32,13 +32,15 @@ interface Dimensions {
   await page.goto("https://en.wikipedia.org/wiki/COVID-19_pandemic_in_Texas");
   //await page.screenshot({ path: "woot.png" });
   //await browser.waitForTarget(() => false);
-  const result: Dimensions = await page.evaluate(() => {
-    return {
-      width: document.documentElement.clientWidth,
-      height: document.documentElement.clientHeight,
-      deviceScaleFactor: window.devicePixelRatio,
-    };
-  });
+  const result: Dimensions = await page.evaluate(
+    (): Dimensions => {
+      return {
+        width: document.documentElement.clientWidth,
+        height: document.documentElement.clientHeight,
+        deviceScaleFactor: window.devicePixelRatio,
+      };
+    }
+  );
 
   console.log("Dimensions:", result);
   await browser.close();
