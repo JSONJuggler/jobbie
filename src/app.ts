@@ -43,11 +43,14 @@ import puppeteer, { Page, Browser } from "puppeteer";
   //);
   //console.log("Dimensions:", result);
 
+  page.on("console", (msg) => console.log("PAGE LOG:", msg.text()));
+
   const result: Array<string> = await page.evaluate(() => {
     let headingsFromPage: NodeListOf<Element> = document.querySelectorAll(
       ".mw-headline"
     );
     const headingsList: Array<Element> = [...headingsFromPage];
+    console.log(`url is ${location.href}`);
     return headingsList.map((h) => h.innerHTML);
   });
   console.log("Header Array:", result);
