@@ -20,11 +20,11 @@ import puppeteer, { Page, Browser } from "puppeteer";
 //});
 //}
 
-interface Dimensions {
-  width: number;
-  height: number;
-  deviceScaleFactor: number;
-}
+//interface Dimensions {
+//width: number;
+//height: number;
+//deviceScaleFactor: number;
+//}
 
 (async () => {
   const browser: Browser = await puppeteer.launch();
@@ -32,16 +32,24 @@ interface Dimensions {
   await page.goto("https://en.wikipedia.org/wiki/COVID-19_pandemic_in_Texas");
   //await page.screenshot({ path: "woot.png" });
   //await browser.waitForTarget(() => false);
-  const result: Dimensions = await page.evaluate(
-    (): Dimensions => {
-      return {
-        width: document.documentElement.clientWidth,
-        height: document.documentElement.clientHeight,
-        deviceScaleFactor: window.devicePixelRatio,
-      };
-    }
-  );
+  //const result: Dimensions = await page.evaluate(
+  //(): Dimensions => {
+  //return {
+  //width: document.documentElement.clientWidth,
+  //height: document.documentElement.clientHeight,
+  //deviceScaleFactor: window.devicePixelRatio,
+  //};
+  //}
+  //);
+  //console.log("Dimensions:", result);
 
-  console.log("Dimensions:", result);
+  const result: Array<string> = await page.evaluate(() => {
+    let headingsFromPage: NodeListOf<Element> = document.querySelectorAll(
+      ".mw-headline"
+    );
+    const headingsList: Array<Element> = [...headingsFromPage];
+    return headingsList.map((h) => h.innerHTML);
+  });
+  console.log("Header Array:", result);
   await browser.close();
 })();
