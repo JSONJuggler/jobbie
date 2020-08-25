@@ -1,6 +1,10 @@
 import React from "react";
 
-const Test: React.FC<{ text: string }> = ({ text }) => {
+interface Props {
+  text: string;
+}
+
+const Test: React.FC<Props> = ({ text }) => {
   return <div>{text}</div>;
 };
 
