@@ -88,7 +88,7 @@ app.get(
         });
       }
     );
-    console.log(cookies);
+    //console.log(cookies);
     res.setHeader("set-cookie", cookies);
     res.send("Hello");
   }
