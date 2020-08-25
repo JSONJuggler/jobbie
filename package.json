@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "@types/puppeteer": "^3.0.1",
+    "cookie": "^0.4.1",
     "express": "^4.17.1",
     "puppeteer": "^5.2.1"
   },
