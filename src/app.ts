@@ -98,11 +98,58 @@ if (process.env.NODE_ENV === "production") {
       //const titleElement = await h.$(".title");
       //console.log(titleElement);
       if (titleElement) {
-        const titleValue: JSHandle<any> = await titleElement.getProperty(
+        const jobTitle: JSHandle<any> = await titleElement.getProperty(
           "innerText"
         );
-        //console.log(await titleValue.jsonValue());
-        return await titleValue.jsonValue();
+
+        const link: JSHandle<any> = await titleElement.getProperty("href");
+
+        const companyNameElement: ElementHandle | null = await jobCard.$(
+          ".company"
+        );
+
+        if (companyNameElement) {
+          const companyName: JSHandle<any> = await companyNameElement.getProperty(
+            "innerText"
+          );
+
+          const locationElement: ElementHandle | null = await jobCard.$(
+            ".location"
+          );
+
+          if (locationElement) {
+            const location: JSHandle<any> = await locationElement.getProperty(
+              "innerText"
+            );
+
+            const summaryElement: ElementHandle | null = await jobCard.$("ul");
+
+            if (summaryElement) {
+              const summary: JSHandle<any> = await summaryElement.getProperty(
+                "innerText"
+              );
+
+              const dateElement: ElementHandle | null = await jobCard.$(
+                ".date"
+              );
+
+              if (dateElement) {
+                const date: JSHandle<any> = await dateElement.getProperty(
+                  "innerText"
+                );
+
+                return {
+                  jobTitle: await jobTitle.jsonValue(),
+                  link: await link.jsonValue(),
+                  companyName: await companyName.jsonValue(),
+                  location: await location.jsonValue(),
+                  summary: await summary.jsonValue(),
+                  date: await date.jsonValue(),
+                };
+              }
+            }
+          }
+        }
       }
     }
   );
