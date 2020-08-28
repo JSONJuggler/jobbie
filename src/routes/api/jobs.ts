@@ -16,7 +16,7 @@ const router: Router = express.Router();
 router.get(
   "/",
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    console.log(req.query);
+    const searchRequest: any = req.query;
     const browser: Browser = await puppeteer.launch();
     const page: Page = await browser.newPage();
     page.on("console", (msg: ConsoleMessage): void =>
@@ -36,7 +36,8 @@ router.get(
     //{ timeout: 0 }
     //);
 
-    await page.type("#text-input-what", "front");
+    //await page.type("#text-input-what", "front");
+    await page.type("#text-input-what", searchRequest.jobTitle);
     await page.click(".icl-Button");
     await page.waitForNavigation();
 

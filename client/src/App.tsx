@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useState, Fragment, ChangeEvent, FormEvent } from "react";
 import axios from "axios";
 
 interface Job {
@@ -11,20 +11,54 @@ interface Job {
 }
 
 const App: React.FC = () => {
+  const [init, setInit] = useState<boolean>(true);
+  const [searching, setSearching] = useState<boolean>(false);
   const [jobs, setJobs] = useState<Array<Job>>([]);
   const [jobTitle, setJobTitle] = useState<string>("");
 
-  useEffect((): void => {
-    (async (): Promise<void> => {
-      const res = await axios.get("/api/jobs?jobTitle=" + jobTitle);
-      setJobs((prev) => res.data);
-    })();
-  }, []);
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
+    e.preventDefault();
+    setJobs((prev) => []);
+
+    if (init) {
+      setInit((prev) => false);
+    }
+
+    setSearching((prev) => true);
+    const res = await axios.get("/api/jobs?jobTitle=" + jobTitle);
+    setSearching((prev) => false);
+    setJobs((prev) => res.data);
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    const userInput: string = e.target.value;
+    setJobTitle((prev) => userInput);
+  };
 
   return (
     <div>
-      {jobs.length === 0 && <h2>Loading Jobs, please wait...</h2>}
-      {jobs.length > 0 &&
+      <form onSubmit={handleSubmit}>
+        <label>
+          Enter job search here:
+          <input
+            type="text"
+            id="search"
+            name="search"
+            value={jobTitle}
+            onChange={handleChange}
+          />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+      {init && <h2>Find your dream job!</h2>}
+      {!init && searching && jobs.length === 0 && (
+        <h2>Loading Jobs, please wait...</h2>
+      )}
+      {!init && !searching && jobs.length === 0 && (
+        <h2>No jobs found. Please try a different search.</h2>
+      )}
+      {!init &&
+        jobs.length > 0 &&
         jobs.map((job) => {
           if (job.jobTitle) {
             return (
