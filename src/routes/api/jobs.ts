@@ -17,7 +17,9 @@ router.get(
   "/",
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const searchRequest: any = req.query;
-    const browser: Browser = await puppeteer.launch();
+    const browser: Browser = await puppeteer.launch({
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    });
     const page: Page = await browser.newPage();
     page.on("console", (msg: ConsoleMessage): void =>
       console.log("PAGE LOG:", msg.text())
