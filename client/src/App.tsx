@@ -60,7 +60,7 @@ const App: React.FC = () => {
       {!init &&
         jobs.length > 0 &&
         jobs.map((job) => {
-          if (job.jobTitle) {
+          if (job?.jobTitle) {
             return (
               <Fragment key={job.link}>
                 <h3>
