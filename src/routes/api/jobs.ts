@@ -40,7 +40,7 @@ router.get(
 
     //await page.type("#text-input-what", "front");
     await page.type("#text-input-what", searchRequest.jobTitle);
-    await page.click(".icl-Button");
+    await page.click(".icl-Button.icl-Button--primary.icl-Button--md.icl-WhatWhere-button");
     await page.waitForNavigation();
 
     const indeedJobCards: Array<ElementHandle> = await page.$$(
@@ -81,7 +81,7 @@ router.get(
               );
 
               const summaryElement: ElementHandle | null = await jobCard.$(
-                "ul"
+                ".summary"
               );
 
               if (summaryElement) {
