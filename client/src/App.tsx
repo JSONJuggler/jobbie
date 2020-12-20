@@ -25,7 +25,7 @@ const App: React.FC = () => {
     }
 
     setSearching((prev) => true);
-    const res = await axios.get("/api/jobs?jobTitle=" + jobTitle);
+    const res = await axios.get("/jobbie/api/jobs?jobTitle=" + jobTitle);
     setSearching((prev) => false);
     setJobs((prev) => res.data);
   };
